@@ -50,7 +50,6 @@ function BuyBox() {
 			<View style={styles.item}>
 				<FontAwesome5 name="shopping-cart" size={24} color="#1F57E0" style={styles.icon} />
 				<Text style={styles.text}>10x VALUE!</Text>
-				{/* <Button title='Buy 10 BDCoins for $10 Here!' /> */}
 			</View>
 		</View>
 	);
@@ -63,8 +62,6 @@ export default function ShopScreen() {
 	const im4: ImageSourcePropType = require("@/assets/images/bg4.png");
 	const im5: ImageSourcePropType = require("@/assets/images/bg5.png");
 	const im6: ImageSourcePropType = require("@/assets/images/bg6.png");
-	// const avalancheLogo: ImageSourcePropType = require('@/assets/images/avalanche-avax-logo.svg');
-	// const currencyLogo: ImageSourcePropType = require('@/assets/images/currency-icon.svg');
 
 	return (
 		<SafeAreaView style={styles.container}>
@@ -93,10 +90,6 @@ export default function ShopScreen() {
 						<ProductBox imageSource={im6} price={18} bannerText="Violet Sky" />
 					</View>
 					<View>
-						{/* <ProductBox imageSource={avalancheLogo} price={45} /> */}
-						{/* <ProductBox imageSource={avalancheLogo} price={100} /> */}
-						{/* <ProductBox imageSource={avalancheLogo} price={100} />
-          <ProductBox imageSource={currencyLogo} price={40} /> */}
 					</View>
 				</View>
 			</ScrollView>
@@ -106,7 +99,7 @@ export default function ShopScreen() {
 
 const styles1 = StyleSheet.create({
 	banner: {
-		backgroundColor: "#0087e8", // Tomato color
+		backgroundColor: "#0087e8",
 		padding: 15,
 		borderRadius: 10,
 		alignItems: "center",
@@ -167,10 +160,10 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		justifyContent: "center",
-		alignItems: "stretch", // Ensure both columns have the same height
+		alignItems: "stretch",
 		padding: 20,
 		flexDirection: "column",
-		backgroundColor: "white", // Changed background color to sky blue
+		backgroundColor: "white",
 		zIndex: 40,
 	},
 	row: {

@@ -1,13 +1,10 @@
-// import { StyleSheet } from 'react-native';
-
-// import EditScreenInfo from '@/components/EditScreenInfo';
-// import { Text, View } from '@/components/Themed';
 import BalanceDisplay from '@/components/Home/BalanceDisplay';
 import StatusDisplay from '@/components/Home/StatusDisplay';
 import { NameDisplay } from '@/components/Home/NameDisplay';
-// import { Task } from '@/components/Task';
-// import { useContext } from 'react';
-// import { TaskContext } from '@/constants/Context';
+import React, { useContext, useMemo, useState } from 'react';
+import { SafeAreaView, StyleSheet, ScrollView, View, Text, TextInput, Button, Alert, TouchableOpacity, Modal, Animated, Easing } from 'react-native';
+import { Task } from '@/components/Task';
+import { TaskContext } from '@/constants/Context';
 
 
 export default function HomeScreen() {
@@ -18,22 +15,6 @@ export default function HomeScreen() {
   const completed = useMemo(() => tasks.reduce((count, task) => {
     return count + (task.completed ? 1 : 0);
   }, 0), [tasks]);
-  // const {streak, setStreaks} = useState(0)
-
-  // const tasks = [
-  //   {
-  //     name:'adajk',
-  //     date: new Date('12-10-2024'),
-  //     money: 50,
-  //     completed: false
-  //   },
-  //   {
-  //     name:'adajk',
-  //     date: new Date('12-10-2024'),
-  //     money: 50,
-  //     completed: false
-  //   }
-  // ]
   
   // Fetch Data from MongoDB e.g. Streak, Progress Profile and pass it through to each
   return (
@@ -44,50 +25,12 @@ export default function HomeScreen() {
       </View>
       <StatusDisplay streak={5} progress={completed / tasks.length} />
       <App />
-      {/* {tasks.map((task, index) => (
-        <Task key={index} name={task.name} money={task.money} />
-      ))} */}
-      {/* <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" /> */}
     </View>
   );
 }
 
-// const styles = StyleSheet.create({
-//   displaysContainer: {
-//     flex: 1,
-//     flexDirection: 'row',
-//     alignItems: 'center',
-//     width: '100%',
-//     justifyContent: 'space-between',
-//     padding: 5,
-//   },
-//   container: {
-//     flex: 1,
-//     alignItems: 'center',
-//     justifyContent: 'center',
-//   },
-//   title: {
-//     fontSize: 20,
-//     fontWeight: 'bold',
-//   },
-//   separator: {
-//     marginVertical: 30,
-//     height: 1,
-//     width: '80%',
-//   },
-// });
-
-import React, { useContext, useMemo, useState } from 'react';
-import { SafeAreaView, StyleSheet, ScrollView, View, Text, TextInput, Button, Alert, TouchableOpacity, Modal, Animated, Easing } from 'react-native';
-import { Task } from '@/components/Task';
-// import DateTimePicker from '@react-native-community/datetimepicker';
-// import { Ionicons } from '@expo/vector-icons';
-import { TaskContext } from '@/constants/Context';
-
 const App = () => {
-  // const [tasks, setTasks] = useState([{name: "Sample Task", date: new Date(), money: 0}]);
   const { tasks, setTasks } = useContext(TaskContext);
-  // const [streak, setStreak] = useState(0);
 
   const toggleTaskCompletion = (index: number) => {
     const updatedTasks = tasks.map((task, i) =>
@@ -126,9 +69,6 @@ const App = () => {
         ))}
         {tasks.length ? <></> : <Text style={{ textAlign: 'center' }}>No tasks</Text>}
       </ScrollView>
-      {/* <TouchableOpacity style={styles.fab} onPress={openModal}>
-        <Ionicons name="add" size={24} color="white" />
-      </TouchableOpacity> */}
     </SafeAreaView>
   );
 };

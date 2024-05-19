@@ -59,7 +59,6 @@ async function sendEther(fromAccount, toAccount, amount) {
 }
 
 const Tasks = () => {
-	// const [tasks, setTasks] = useState([{name: "Sample Task", date: new Date(), money: 0}]);
 	const { tasks, setTasks } = useContext(TaskContext);
   const { wallet } = useContext(AuthContext);
 	const [newTaskName, setNewTaskName] = useState("");
@@ -99,13 +98,11 @@ const Tasks = () => {
 			})
 				.then((res) => res.json())
 				.then((data) => {
-					// console.log(data.data.data)
 					const newTask = data.data.data;
 					const updatedTasks =
 						currentTaskIndex !== null
 							? tasks.map((task, index) => (index === currentTaskIndex ? newTask : task))
 							: [...tasks, newTask];
-					// console.log(newTask, updatedTasks);
 					setTasks(updatedTasks);
 					setNewTaskName("");
 					setNewTaskDate(new Date());
@@ -131,13 +128,11 @@ const Tasks = () => {
 			})
 				.then((res) => res.json())
 				.then((data) => {
-					// console.log(data);
 					const newTask = data;
 					const updatedTasks =
 						currentTaskIndex !== null
 							? tasks.map((task, index) => (index === currentTaskIndex ? newTask : task))
 							: [...tasks, newTask];
-					// console.log(newTask, updatedTasks);
 					setTasks(updatedTasks);
 					setNewTaskName("");
 					setNewTaskDate(new Date());
@@ -179,11 +174,6 @@ const Tasks = () => {
 			console.error("Error deleting task:", error);
 		}
 	};
-
-	// const deleteTask = (index: number) => {
-	//   const updatedTasks = tasks.filter((_, i) => i !== index);
-	//   setTasks(updatedTasks);
-	// };
 
 	const toggleTaskCompletion = (index: number) => {
 		const updatedTasks = tasks.map((task, i) => (i === index ? { ...task, completed: !task.completed } : task));

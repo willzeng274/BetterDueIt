@@ -20,7 +20,6 @@ export default function ProfileScreen() {
 			style={styles.backgroundImage}
 		>
 			<View style={styles.container}>
-				{/* <Image source={require("@/assets/images/bg2.png")} style={styles.backgroundImage} /> */}
 				<View style={styles.banner}>
 					<View style={styles.circle}>
 						<Text style={styles.text}>BetterDueIt</Text>
@@ -30,7 +29,6 @@ export default function ProfileScreen() {
 						<View style={[styles.wing, styles.rightWing]} />
 					</View>
 				</View>
-				{/* <LoginBtn /> */}
         <Button title="Logout" onPress={logout} />
 			</View>
 		</ImageBackground>
@@ -42,7 +40,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 		justifyContent: "center",
 		alignItems: "center",
-		backgroundColor: "transparent", // Transparent background
+		backgroundColor: "transparent",
 		padding: 20,
 	},
 	backgroundImage: {
@@ -61,7 +59,7 @@ const styles = StyleSheet.create({
 		width: 150,
 		height: 150,
 		borderRadius: 75,
-		backgroundColor: "#9370db", // Medium Purple
+		backgroundColor: "#9370db",
 		justifyContent: "center",
 		alignItems: "center",
 	},
@@ -84,7 +82,7 @@ const styles = StyleSheet.create({
 	wing: {
 		width: 60,
 		height: 150,
-		backgroundColor: "#9370db", // Medium Purple
+		backgroundColor: "#9370db",
 		borderRadius: 30,
 		transform: [{ rotate: "45deg" }],
 	},

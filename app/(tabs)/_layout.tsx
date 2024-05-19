@@ -63,9 +63,6 @@ export default function TabLayout() {
 				setTasks,
 			}}
 		>
-      {/*  
-			{loaded ? (
-        */}
 				<Tabs
 					screenOptions={{
 						tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
@@ -87,10 +84,6 @@ export default function TabLayout() {
 					))}
 					<Tabs.Screen name="index" options={{ href: null }} />
 				</Tabs>
-      {/*
-			) : (
-				<></>
-			)} */}
 		</TaskContext.Provider>
 	);
 }
