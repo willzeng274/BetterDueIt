@@ -3,10 +3,11 @@ import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import 'react-native-reanimated';
 
 import { useColorScheme } from '@/components/useColorScheme';
+import { AuthContext } from '@/constants/Context';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -47,13 +48,27 @@ export default function RootLayout() {
 
 function RootLayoutNav() {
   const colorScheme = useColorScheme();
+  const [wallet, setWallet] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
 
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
-      </Stack>
+      <AuthContext.Provider
+        value={{
+          wallet,
+          setWallet,
+          password,
+          setPassword
+        }}
+      >
+        <Stack
+          initialRouteName='/login'
+        >
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
+          <Stack.Screen name="login" options={{ headerShown: false }} />
+        </Stack>
+      </AuthContext.Provider>
     </ThemeProvider>
   );
 }
