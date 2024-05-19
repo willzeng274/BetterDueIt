@@ -9,7 +9,7 @@ export function Task(props: { name?: string, date?: Date, money?: number, comple
   const formattedDate = date ? date.toLocaleString() : 'No date provided';
 
   // Format the money to a currency string
-  const formattedMoney = money !== undefined ? `$${parseFloat(money.toString()).toFixed(2)}` : 'No money specified';
+  const formattedMoney = money !== undefined ? `AVAX $${parseFloat(money.toString()).toFixed(2)}` : 'No money specified';
 
   return (
     <View style={[styles.taskContainer, completed && styles.completedContainer]}>

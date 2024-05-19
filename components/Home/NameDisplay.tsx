@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
       fontSize: 18,
       fontWeight: 'bold',
       color: 'black',
-      fontFamily: 'Bradley Hand, cursive',
+      fontFamily: 'Satisfy_400Regular',
     },
   });
   

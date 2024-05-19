@@ -1,11 +1,12 @@
 // BalanceDisplays.js
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
 import { FontAwesome, FontAwesome5 } from '@expo/vector-icons';
 
 import { Link } from 'expo-router';
 
 import Svg, { Circle, Text as SvgText, Path } from 'react-native-svg';
+import { AuthContext } from '@/constants/Context';
 
 const AvalancheIcon: React.FC = (props) => (
   <Svg
@@ -53,6 +54,32 @@ const DueCoin: React.FC = (props) => (
   </Svg>
 );
 
+function isEthereum() {
+  if (window.ethereum) return true;
+
+  return false;
+}
+
+async function requestBalance(currentAccount) {
+  let currentBalance = 0;
+
+  if (isEthereum()) {
+      try {
+          currentBalance = await window.ethereum.request({
+              method: 'eth_getBalance',
+              params: [currentAccount, 'latest'],
+          });
+
+          currentBalance = parseInt(currentBalance, 16) / 1e18;
+
+          return { currentBalance, err: false };
+      } catch (err) {
+          return { currentBalance, err: true };
+      }
+  }
+
+  return { currentBalance, err: true };
+}
 
 interface BalanceDisplaysProps {
   token: number;
@@ -60,13 +87,24 @@ interface BalanceDisplaysProps {
 }
 
 const BalanceDisplays: React.FC<BalanceDisplaysProps> = ({ token, coin }) => {
+
+  const [actualTokens, setActualTokens] = useState<number>(token);
+  const { wallet } = useContext(AuthContext);
+  
+  useEffect(() => {
+    if (isEthereum()) {
+      requestBalance(wallet)
+        .then((bal) => setActualTokens(bal.currentBalance))
+    }
+  }, []);
+
   return (
     <View style={styles.balancesContainer}>
       <View style={styles.balanceContainer}>
         <Link href="/shop" style={styles.icon}>
           <FontAwesome name="plus-square" color={"green"} size={24} />
         </Link>
-        <Text style={styles.amountText}>{parseFloat(token.toString()).toFixed(2)}</Text>
+        <Text style={styles.amountText}>{parseFloat(actualTokens.toString()).toFixed(2)}</Text>
         <AvalancheIcon />
       </View>
       <View style={styles.balanceContainer}>

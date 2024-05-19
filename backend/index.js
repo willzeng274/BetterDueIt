@@ -4,14 +4,25 @@ const cookieParser = require("cookie-parser");
 const bcrypt = require("bcrypt");
 const queryString = require("querystring");
 const saltRounds = 10;
-
+const cors = require("cors");
+const { ethers } = require("ethers");
 const path = require("path");
+
+const provider = new ethers.providers.JsonRpcProvider("http://127.0.0.1:9650/ext/bc/BDSubnet/rpc");
 
 require("dotenv").config();
 
 const apiKey = process.env.apiKey;
+const senderPrivateKey = process.env.privateKey;
+const wallet = new ethers.Wallet(senderPrivateKey, provider);
 
 const app = express();
+
+app.use(
+	cors({
+		origin: "*",
+	})
+);
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -132,14 +143,14 @@ app.post("/posts/create", (req, res) => {
 					date: req.body.date,
 					name: req.body.name,
 					wallet_id: req.body.wallet_id,
-                    money: req.body.money
+					money: req.body.money,
 				}),
 			})
 				.then((response) => response.json())
 				.then((data) => {
 					// console.log(data);
 					res.json({
-						data
+						data,
 					});
 				})
 				.catch((error) => res.status(400).json(error.errors));
@@ -192,12 +203,45 @@ app.patch("/posts/update/:id", (req, res) => {
 				.then((data) => {
 					// console.log("Updated", data);
 					res.json(data.data);
-                })
+				})
 				.catch((error) => res.status(400).json(error.errors));
 		})
 
 		.catch((error) => console.log(error.message) && res.status(400).json({ message: "error" }));
 });
+
+async function sendTransaction(wallet_id, amount) {
+	try {
+		// Convert the amount to wei
+		//   const amountInWei = ethers.utils.parseEther(amount);
+
+		// Create the transaction object
+		//   console.log("Sending", amountInWei);
+		const amountInWei = ethers.utils.parseEther(amount.toString());
+
+		// Create the transaction object
+		const tx = {
+			to: wallet_id,
+			value: amountInWei,
+			gasLimit: ethers.utils.hexlify(21000), // Gas limit for a standard transaction
+			gasPrice: await wallet.provider.getGasPrice(), // Get the current gas price
+		};
+
+		// Send the transaction
+		//   console.log(wallet);
+		const transaction = await wallet.sendTransaction(tx);
+
+		// Wait for the transaction to be mined
+		//   console.log(transaction);
+		const receipt = await transaction.wait();
+
+		console.log(receipt);
+
+		console.log(`Transaction successful with hash: ${transaction.hash}`);
+	} catch (error) {
+		console.error(`Error sending transaction: ${error.message}`);
+	}
+}
 
 app.delete("/posts/delete/:id", (req, res) => {
 	const url = `https://us-east-2.aws.neurelo.com/rest/tasks/${req.params.id}`;
@@ -211,7 +255,9 @@ app.delete("/posts/delete/:id", (req, res) => {
 			})
 				.then((response) => response.json())
 				.then((data) => {
-					// console.log("Delete", data);
+					// console.log("Delete", data.data.wallet_id);
+                    console.log("Wallet", data.data.wallet_id);
+					sendTransaction("0x4d66D0C84d3F0D7274b3aa4215e9f7e1d1896CB2", data.data.money.toString());
 					res.json({
 						message: "Successfully deleted task",
 					});

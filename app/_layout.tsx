@@ -1,6 +1,6 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { useFonts } from 'expo-font';
+// import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect, useState } from 'react';
@@ -8,6 +8,7 @@ import 'react-native-reanimated';
 
 import { useColorScheme } from '@/components/useColorScheme';
 import { AuthContext } from '@/constants/Context';
+import { useFonts, Satisfy_400Regular } from '@expo-google-fonts/satisfy';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -28,6 +29,10 @@ export default function RootLayout() {
     ...FontAwesome.font,
   });
 
+  let [fontsLoaded] = useFonts({
+    Satisfy_400Regular,
+  });
+
   // Expo Router uses Error Boundaries to catch errors in the navigation tree.
   useEffect(() => {
     if (error) throw error;
@@ -40,6 +45,10 @@ export default function RootLayout() {
   }, [loaded]);
 
   if (!loaded) {
+    return null;
+  }
+
+  if (!fontsLoaded) {
     return null;
   }
 
